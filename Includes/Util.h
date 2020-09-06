@@ -11,15 +11,6 @@
 #ifndef UTIL_H
 #define UTIL_H
 
-// Music tracks.
-enum class MUSIC_TRACK {
-	ALT_1,
-	ALT_2,
-	ALT_3,
-	ALT_4,
-	COUNT
-};
-
 // Game states.
 enum class GAME_STATE {
 	MAIN_MENU,
@@ -41,23 +32,6 @@ enum class ITEM {
 enum class ENEMY {
 	SLIME,
 	HUMANOID,
-	COUNT
-};
-
-// Enemy humanoid types.
-enum class HUMANOID {
-	GOBLIN,
-	SKELETON,
-	COUNT
-};
-
-// Potions.
-enum class POTION {
-	ATTACK,
-	DEFENSE,
-	STRENGTH,
-	DEXTERITY,
-	STAMINA,
 	COUNT
 };
 
@@ -105,39 +79,6 @@ enum class TILE {
 enum class VIEW {
 	MAIN,
 	UI,
-	COUNT
-};
-
-// Colors provided by SFML.
-enum class COLOR {
-	BLACK,
-	WHITE,
-	RED,
-	GREEN,
-	BLUE,
-	YELLOW,
-	MAGENTA,
-	CYAN,
-	TRANSPARENT,
-	COUNT
-};
-
-// Player classes.
-enum class PLAYER_CLASS {
-	WARRIOR,
-	MAGE,
-	ARCHER,
-	THIEF,
-	COUNT
-};
-
-// Player traits.
-enum class PLAYER_TRAIT {
-	ATTACK,
-	DEFENSE,
-	STRENGTH,
-	DEXTERITY,
-	STAMINA,
 	COUNT
 };
 #endif

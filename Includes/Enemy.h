@@ -23,19 +23,6 @@ public:
 	Enemy();
 
 	/**
-	 * Overrides the default Update function of Entity.
-	 * @param timeDelta The time that has elapsed since the last update.
-	 */
-	virtual void Update(float timeDelta) override;
-
-	/**
-	 * Recalculates the enemies path finding.
-	 * @param level A reference to the level object.
-	 * @param playerPosition The position of the player within the level.
-	 */
-	void UpdatePathfinding(Level& level, sf::Vector2f playerPosition);
-
-	/**
 	 * Applies the given amount of damage to the enemy.
 	 * @param damage The amount of damage to deal to the enemy.
 	 */
@@ -46,16 +33,5 @@ public:
 	 * @return True if the enemy is dead.
 	 */
 	bool IsDead();
-
-protected:
-	/**
-	 * The target position of the enemy.
-	 */
-	std::vector<sf::Vector2f> m_targetPositions;
-
-	/**
-	 * The current target of the enemy.
-	 */
-	sf::Vector2f m_currentTarget;
 };
 #endif

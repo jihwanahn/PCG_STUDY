@@ -7,46 +7,17 @@ m_attackDelta(0.f),
 m_damageDelta(0.f),
 m_manaDelta(0.f),
 m_isAttacking(false),
-m_canTakeDamage(true),
-m_statPoints(0)
+m_canTakeDamage(true)
 {
-	// Generate a random class.
-	m_class = static_cast<PLAYER_CLASS>(std::rand() % static_cast<int>(PLAYER_CLASS::COUNT));
-	std::string className;
-
-	// Set class-specific variables.
-	switch (m_class)
-	{
-	case PLAYER_CLASS::WARRIOR:
-		m_strength += std::rand() % 6 + 5;
-		className = "warrior";
-		break;
-
-	case PLAYER_CLASS::MAGE:
-		m_defense = std::rand() % 6 + 5;
-		className = "mage";
-		break;
-
-	case PLAYER_CLASS::ARCHER:
-		m_dexterity = std::rand() % 6 + 5;
-		className = "archer";
-		break;
-
-	case PLAYER_CLASS::THIEF:
-		m_stamina = std::rand() % 6 + 5;
-		className = "thief";
-		break;
-	}
-
 	// Load textures.
-	m_textureIDs[static_cast<int>(ANIMATION_STATE::WALK_UP)] = TextureManager::AddTexture("../resources/players/" + className + "/spr_" + className + "_walk_up.png");
-	m_textureIDs[static_cast<int>(ANIMATION_STATE::WALK_DOWN)] = TextureManager::AddTexture("../resources/players/" + className + "/spr_" + className + "_walk_down.png");
-	m_textureIDs[static_cast<int>(ANIMATION_STATE::WALK_RIGHT)] = TextureManager::AddTexture("../resources/players/" + className + "/spr_" + className + "_walk_right.png");
-	m_textureIDs[static_cast<int>(ANIMATION_STATE::WALK_LEFT)] = TextureManager::AddTexture("../resources/players/" + className + "/spr_" + className + "_walk_left.png");
-	m_textureIDs[static_cast<int>(ANIMATION_STATE::IDLE_UP)] = TextureManager::AddTexture("../resources/players/" + className + "/spr_" + className + "_idle_up.png");
-	m_textureIDs[static_cast<int>(ANIMATION_STATE::IDLE_DOWN)] = TextureManager::AddTexture("../resources/players/" + className + "/spr_" + className + "_idle_down.png");
-	m_textureIDs[static_cast<int>(ANIMATION_STATE::IDLE_RIGHT)] = TextureManager::AddTexture("../resources/players/" + className + "/spr_" + className + "_idle_right.png");
-	m_textureIDs[static_cast<int>(ANIMATION_STATE::IDLE_LEFT)] = TextureManager::AddTexture("../resources/players/" + className + "/spr_" + className + "_idle_left.png");
+	m_textureIDs[static_cast<int>(ANIMATION_STATE::WALK_UP)] = TextureManager::AddTexture("../../resources/players/warrior/spr_warrior_walk_up.png");
+	m_textureIDs[static_cast<int>(ANIMATION_STATE::WALK_DOWN)] = TextureManager::AddTexture("../../resources/players/warrior/spr_warrior_walk_down.png");
+	m_textureIDs[static_cast<int>(ANIMATION_STATE::WALK_RIGHT)] = TextureManager::AddTexture("../../resources/players/warrior/spr_warrior_walk_right.png");
+	m_textureIDs[static_cast<int>(ANIMATION_STATE::WALK_LEFT)] = TextureManager::AddTexture("../../resources/players/warrior/spr_warrior_walk_left.png");
+	m_textureIDs[static_cast<int>(ANIMATION_STATE::IDLE_UP)] = TextureManager::AddTexture("../../resources/players/warrior/spr_warrior_idle_up.png");
+	m_textureIDs[static_cast<int>(ANIMATION_STATE::IDLE_DOWN)] = TextureManager::AddTexture("../../resources/players/warrior/spr_warrior_idle_down.png");
+	m_textureIDs[static_cast<int>(ANIMATION_STATE::IDLE_RIGHT)] = TextureManager::AddTexture("../../resources/players/warrior/spr_warrior_idle_right.png");
+	m_textureIDs[static_cast<int>(ANIMATION_STATE::IDLE_LEFT)] = TextureManager::AddTexture("../../resources/players/warrior/spr_warrior_idle_left.png");
 
 	// Set initial sprite.
 	SetSprite(TextureManager::GetTexture(m_textureIDs[static_cast<int>(ANIMATION_STATE::WALK_UP)]), false, 8, 12);
@@ -54,35 +25,22 @@ m_statPoints(0)
 	m_sprite.setOrigin(sf::Vector2f(13.f, 18.f));
 
 	// Create the player's aim sprite.
-	int textureID = TextureManager::AddTexture("../resources/ui/spr_aim.png");
+	int textureID = TextureManager::AddTexture("../../resources/ui/spr_aim.png");
 	m_aimSprite.setTexture(TextureManager::GetTexture(textureID));
 	m_aimSprite.setOrigin(sf::Vector2f(16.5f, 16.5f));
 	m_aimSprite.setScale(2.f, 2.f);
 
-	// Set random traits.
-	SetRandomTraits();
-
-	// Set fixed stats.
+	// Set stats.
 	m_health = m_maxHealth = 100;
 	m_mana = m_maxMana = 50;
 	m_speed = 200;
 
-	// Randomly distribute other stats.
-	m_statPoints = 50;
+	m_attack = 10;
+	m_defense = 10;
+	m_strength = 10;
+	m_dexterity = 10;
+	m_stamina = 10;
 
-	int attackBias = std::rand() % 101;
-	int defenseBias = std::rand() % 101;
-	int strengthBias = std::rand() % 101;
-	int dexterityBias = std::rand() % 101;
-	int staminaBias = std::rand() % 101;
-
-	int total = attackBias + defenseBias + strengthBias + dexterityBias + staminaBias;
-
-	m_attack += m_statPoints * (attackBias / total);
-	m_defense += m_statPoints * (defenseBias / total);
-	m_strength += m_statPoints * (strengthBias / total);
-	m_dexterity += m_statPoints * (dexterityBias / total);
-	m_stamina += m_statPoints * (staminaBias / total);
 }
 
 // Updates the player object.
@@ -223,59 +181,6 @@ void Player::Update(float timeDelta, Level& level)
 
 		m_manaDelta = 0.f;
 	}
-}
-
-// Returns the player's class.
-PLAYER_CLASS Player::GetClass() const
-{
-	return m_class;
-}
-
-// Chooses random traits for the character.
-void Player::SetRandomTraits()
-{
-	// Generate the traits.
-	for (int i = 0; i < PLAYER_TRAIT_COUNT; ++i)
-		m_traits[i] = static_cast<PLAYER_TRAIT>(std::rand() % static_cast<int>(PLAYER_TRAIT::COUNT));
-
-	// Action the traits.
-	for (PLAYER_TRAIT trait : m_traits)
-	{
-		switch (trait)
-		{
-		case PLAYER_TRAIT::ATTACK: default:
-			m_attack += std::rand() % 6 + 5;
-			break;
-
-		case PLAYER_TRAIT::DEFENSE:
-			m_defense += std::rand() % 6 + 5;
-			break;
-
-		case PLAYER_TRAIT::STRENGTH:
-			m_strength += std::rand() % 6 + 5;
-			break;
-
-		case PLAYER_TRAIT::DEXTERITY:
-			m_dexterity += std::rand() % 6 + 5;
-			break;
-
-		case PLAYER_TRAIT::STAMINA:
-			m_stamina += std::rand() % 6 + 5;
-			break;
-		}
-	}
-}
-
-// Return the players traits.
-PLAYER_TRAIT* Player::GetTraits()
-{
-	return &m_traits[0];
-}
-
-// Returns the number of traits the player has.
-int Player::GetTraitCount() const
-{
-	return PLAYER_TRAIT_COUNT;
 }
 
 // Returns a reference to the player's aim sprite.

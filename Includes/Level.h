@@ -80,6 +80,13 @@ public:
 	TILE GetTileType(int columnIndex, int rowIndex) const;
 
 	/**
+	 * Loads a level from a text file.
+	 * @param fileName The path to the level file to load.
+	 * return true if the level loaded succesfully.
+	 */
+	bool Level::LoadLevelFromFile(std::string fileName);
+
+	/**
 	 * Gets the tile at the given position.
 	 * @param position The coordinates of the position to check.
 	 * @return A pointer to the tile at the given location.
@@ -115,12 +122,6 @@ public:
 	bool TileIsValid(int columnIndex, int rowIndex);
 
 	/**
-	 * Sets the overlay color of the level tiles.
-	 * @param tileColor The new tile overlay color.
-	 */
-	void SetColor(sf::Color tileColor);
-
-	/**
 	 * Gets the current floor number.
 	 * @return The current floor.
 	 */
@@ -139,41 +140,10 @@ public:
 	sf::Vector2i GetSize() const;
 
 	/**
-	 * Gets the actual position of a tile in the game.
-	 * @param columnIndex The column that the tile is in.
-	 * @param rowIndex The column that the row is in.
-	 * @return The position of the tile if valid.
-	 */
-	sf::Vector2f GetActualTileLocation(int columnIndex, int rowIndex);
-
-	/**
-	* Returns a valid spawn location from the current room.
-	* The position returned is relative to the game window.
-	* @return A suitable spawn location within the room.
-	*/
-	sf::Vector2f GetRandomSpawnLocation();
-
-	/**
-	 * Resets the A* data of all level tiles.
-	 */
-	void ResetNodes();
-
-	/**
-	 * Generates a random level.
-	 */
-	void GenerateLevel();
-
-	/**
 	 * Spawns a given number of torches in the level.
 	 * @param torchCount The number of torches to create.
 	 */
 	void SpawnTorches(int torchCount);
-
-	/**
-	 * Returns the spawn location for the current level.
-	 * @return The spawn location of the level.
-	 */
-	sf::Vector2f SpawnLocation() const;
 
 	/**
 	 * Unlocks the door in the level.
@@ -211,28 +181,6 @@ public:
 	int AddTile(std::string fileName, TILE tileType);
 
 private:
-
-	/** 
-	 * Creates a path between two nodes in the recursive backtracker algorithm.
-	 * @param columnIndex The column that the tile is in.
-	 * @param rowIndex The column that the row is in.
-	 */
-	void CreatePath(int columnIndex, int rowIndex);
-
-	/**
-	 * Adds a given number of randomly sized rooms to the level to create some open space.
-	 */
-	void CreateRooms(int roomCount);
-
-	/**
-	 * Calculates the correct texture for each tile in the level.
-	 */
-	void CalculateTextures();
-
-	/**
-	 * Generates an entry and exit point for the given level.
-	 */
-	void GenerateEntryExit();
 
 	/**
 	 * Checks if a given tile is a wall block.
@@ -279,11 +227,6 @@ private:
 	 * An array containing all texture IDs of the level tiles.
 	 */
 	int m_textureIDs[static_cast<int>(TILE::COUNT)];
-
-	/**
-	 * The spawn location for the current level.
-	 */
-	sf::Vector2f m_spawnLocation;
 
 	/**
 	 * The indices of the tile containing the levels door.

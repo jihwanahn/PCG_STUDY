@@ -24,8 +24,6 @@
 
 static float const FPS = 60.0;						// Constant for fixed time - step loop. We'll lock it at 60fps.
 static float const MS_PER_STEP = 1.0f / FPS;		// Roughly (0.017) @ 60fps.
-static int const MAX_ITEM_SPAWN_COUNT = 50;			// The maximum number of items that can be spawned each room.
-static int const MAX_ENEMY_SPAWN_COUNT = 20;		// The maximum number of enemies that can be spawned each room.
 
 class Game
 {
@@ -69,34 +67,14 @@ public:
 private:
 
 	/**
-	 * Plays the given sound effect, with randomized parameters.
-	 * @param sound A reference to the sound to play.
-	 * @param position The position to play the sound at.
-	 */
-	void PlaySound(sf::Sound& sound, sf::Vector2f position = { 0.f, 0.f });
-
-	/**
 	 * Populates the current game room with items and enemies.
 	 */
 	void PopulateLevel();
 
 	/**
-	 * Spawns a given number of a certain tile at random locations in the level.
-	 * This is used to give variance to the level grid.
-	 * @param newTileIndex The index of the tiles you want to create.
-	 * @param count The number of tiles to create.
-	 */
-	void SpawnRandomTiles(TILE tileType, int count);
-
-	/**
 	 * Loads all sprites needed for the UI.
 	 */
 	void LoadUI();
-
-	/**
-	 * Generates a new level.
-	 */
-	void GenerateLevel();
 
 	/**
 	 * Calculates the distance between two points
@@ -115,30 +93,9 @@ private:
 	void DrawString(std::string text, sf::Vector2f position, unsigned int size = 10);
 
 	/**
-	 * Spawns a given item within the level.
-	 * Be default, the object will be spawned at a random location. There are optional parameters to override and spawn at a given location.
-	 * @param itemType The type of the item to spawn.
-	 * @param position The position to spawn the item at.
-	 */
-	void SpawnItem(ITEM itemType, sf::Vector2f position = { -1.f, -1.f });
-
-	/**
-	* Spawns a given enemy within the level.
-	* Be default, the object will be spawned at a random location. There are optional parameters to override and spawn at a given location.
-	* @param enemyType The type of the enemy to spawn.
-	* @param position The position to spawn the enemy at.
-	*/
-	void SpawnEnemy(ENEMY enemyType, sf::Vector2f position = { -1.f, -1.f });
-
-	/**
 	 * Constructs the grid of sprites that are used to draw the game light system.
 	 */
 	void ConstructLightGrid();
-
-	/**
-	 * Generates a level goal.
-	 */
-	void GenerateLevelGoal();
 
 	/**
 	 * Updates the level light.
@@ -252,11 +209,6 @@ private:
 	int m_scoreTotal;
 
 	/**
-	 * An array of texture for the player in the UI.
-	 */
-	int m_playerUiTextureIDs[static_cast<int>(PLAYER_CLASS::COUNT)];
-
-	/**
 	* The amount of gold that the player currently has.
 	*/
 	int m_goldTotal;
@@ -332,11 +284,6 @@ private:
 	int m_staminaStatTextureIDs[2];
 
 	/**
-	 * The last tile that the player was on.
-	 */
-	Tile* m_playerPreviousTile;
-
-	/**
 	 * A vector of all the player's projectiles.
 	 */
 	std::vector<std::unique_ptr<Projectile>> m_playerProjectiles;
@@ -347,29 +294,9 @@ private:
 	int m_projectileTextureID;
 
 	/**
-	 * The value of gold remaining for the current goal.
+	 * A boolean denoting if a new level was generated.
 	 */
-	int m_goldGoal;
-
-	/**
-	 * The value of gems remaining for the current goal.
-	 */
-	int m_gemGoal;
-
-	/**
-	 * The number of kills remaining for the current goal.
-	 */
-	int m_killGoal;
-
-	/**
-	* The text that will hold the level goal.
-	*/
-	sf::String m_goalString;
-
-	/**
-	 * A boolean denoting if a goal is currently active.
-	 */
-	bool m_activeGoal;
+	bool m_levelWasGenerated;
 
 	/**
 	 * Sprite for the health bar.
@@ -395,40 +322,5 @@ private:
 	 * A vector of all ui sprites.
 	 */
 	std::vector<std::shared_ptr<sf::Sprite>> m_uiSprites;
-
-	/**
-	 * Torch sound.
-	 */
-	sf::Sound m_fireSound;
-
-	/**
-	 * Gem pickup sound.
-	 */
-	sf::Sound m_gemPickupSound;
-
-	/**
-	 * Coin pickup sound.
-	 */
-	sf::Sound m_coinPickupSound;
-
-	/**
-	* Key collect sound.
-	*/
-	sf::Sound m_keyPickupSound;
-
-	/**
-	 * Enemy die sound.
-	 */
-	sf::Sound m_enemyDieSound;
-
-	/**
-	 * Player hit sound.
-	 */
-	sf::Sound m_playerHitSound;
-
-	/**
-	 * The main music.
-	 */
-	sf::Music m_music;
 };
 #endif

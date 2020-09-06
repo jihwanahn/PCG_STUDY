@@ -33,17 +33,6 @@ public:
 	void Update(float timeDelta, Level& level);
 
 	/**
-	 * Gets the player's current traits.
-	 * @return The player's current traits.
-	 */
-	PLAYER_TRAIT* GetTraits();
-
-	/**
-	 * Gets the number of traits the player has.
-	 */
-	int GetTraitCount() const;
-
-	/**
 	* Gets the player's mana.
 	* @return The player's mana.
 	*/
@@ -66,17 +55,6 @@ public:
 	 * @param mana The new mana value.
 	 */
 	void SetMana(int manaValue);
-
-	/**
-	 * Chooses random traits for the character.
-	 */
-	void SetRandomTraits();
-
-	/**
-	 * Gets the player's class.
-	 * @return The player's class.
-	 */
-	PLAYER_CLASS GetClass() const;
 
 	/**
 	 * Gets the player's aim sprite.
@@ -115,21 +93,6 @@ private:
 private:
 
 	/**
-	 * The number of traits that the player can have.
-	 */
-	static const int PLAYER_TRAIT_COUNT = 2;
-
-	/**
-	 * An array containing the character's traits.
-	 */
-	PLAYER_TRAIT m_traits[PLAYER_TRAIT_COUNT];
-
-	/**
-	 * The player's class.
-	 */
-	PLAYER_CLASS m_class;
-
-	/**
 	 * The sprite for the player's aim cross hair.
 	 */
 	sf::Sprite m_aimSprite;
@@ -158,10 +121,5 @@ private:
 	 * Can the player take damage.
 	 */
 	bool m_canTakeDamage;
-
-	/**
-	* The number of stat points the entities has to distribute.
-	*/
-	int m_statPoints;
 };
 #endif

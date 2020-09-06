@@ -22,12 +22,6 @@ public:
 	Potion();
 
 	/**
-	 * Gets the potion type.
-	 * @return The potion type.
-	 */
-	POTION GetPotionType() const;
-
-	/**
 	 * Gets the attack value of the potion.
 	 * @return The attack value the potion gives.
 	 */
@@ -58,10 +52,6 @@ public:
 	int GetStamina() const;
 
 private:
-	/**
-	 * The potion type.
-	 */
-	POTION m_potionType;
 
 	/**
 	 * The attack value of the potion.
